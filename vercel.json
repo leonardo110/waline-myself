@@ -3,10 +3,30 @@
   "github": {
     "silent": true
   },
-  "routes": [
+  "env": {
+    "NODE_OPTIONS": "--experimental-require-module"
+  },
+  "builds": [
     {
-      "src": "/(.*)",
-      "dest": "index.js"
+      "src": "robots.txt",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "index.cjs",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "node_modules/@mathjax/mathjax-newcm-font/**/*",
+          "node_modules/mhchemparser/**/*",
+          "node_modules/ip2region/data/**"
+        ]
+      }
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!robots\\.txt$).*)",
+      "destination": "index.cjs"
     }
   ]
 }
